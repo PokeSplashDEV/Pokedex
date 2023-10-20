@@ -6,7 +6,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
 public abstract class CommandHandler {
-	public static final String basePermission = "fabrictemplate";
+	public static final String basePermission = "pokedex";
 	public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
 		new BaseCommand().register(dispatcher);
 	}

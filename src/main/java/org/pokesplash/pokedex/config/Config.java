@@ -6,6 +6,7 @@ import org.pokesplash.pokedex.util.Utils;
 
 import java.util.concurrent.CompletableFuture;
 
+// TODO this
 public class Config {
 	private boolean isExample;
 

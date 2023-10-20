@@ -1,11 +1,15 @@
 package org.pokesplash.pokedex.command;
 
+import ca.landonjw.gooeylibs2.api.UIManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import org.pokesplash.pokedex.ui.DexMenu;
 import org.pokesplash.pokedex.util.LuckPermsUtils;
 
 public class BaseCommand {
@@ -38,6 +42,15 @@ public class BaseCommand {
 	}
 
 	public int run(CommandContext<ServerCommandSource> context) {
+
+		if (!context.getSource().isExecutedByPlayer()) {
+			context.getSource().sendMessage(Text.literal("This command must be ran by a player."));
+		}
+
+		ServerPlayerEntity player = context.getSource().getPlayer();
+
+		UIManager.openUIForcefully(player, new DexMenu().getPage(player.getUuid()));
+
 		System.out.println("Base command run");
 		return 1;
 	}

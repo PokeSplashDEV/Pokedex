@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "fabrictemplate",
+  "id": "pokedex",
   "version": "${version}",
-  "name": "FabricTemplate",
+  "name": "PokeDex",
   "description": "",
   "authors": [],
   "contact": {
@@ -13,7 +13,7 @@
   "environment": "server",
   "entrypoints": {
     "main": [
-      "org.pokesplash.fabrictemplate.FabricTemplate"
+      "org.pokesplash.pokedex.PokeDex"
     ]
   },
   "depends": {
