@@ -40,6 +40,8 @@ public class BaseCommand {
 
 		registeredCommand.addChild(new ReloadCommand().build());
 		registeredCommand.addChild(new RewardsCommand().build());
+		registeredCommand.addChild(new CaughtCommand().build());
+		registeredCommand.addChild(new NeededCommand().build());
 
 	}
 

@@ -22,7 +22,6 @@ import org.pokesplash.pokedex.account.AccountProvider;
 import org.pokesplash.pokedex.util.Utils;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
 

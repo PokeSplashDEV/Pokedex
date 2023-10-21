@@ -17,7 +17,6 @@ import org.pokesplash.pokedex.account.AccountProvider;
 import org.pokesplash.pokedex.config.Reward;
 import org.pokesplash.pokedex.util.Utils;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
