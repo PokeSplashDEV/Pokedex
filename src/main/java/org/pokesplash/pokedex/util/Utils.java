@@ -1,10 +1,12 @@
 package org.pokesplash.pokedex.util;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import org.pokesplash.pokedex.PokeDex;
+import org.pokesplash.pokedex.account.Account;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -302,4 +304,9 @@ public abstract class Utils {
 		tag.putInt("Count", 1);
 		return ItemStack.fromNbt(tag);
 	}
+
+	public static double getDexProgress(Account account) {
+		return (double) account.getCaught().size() / PokemonSpecies.INSTANCE.getSpecies().size() * 100;
+	}
+
 }

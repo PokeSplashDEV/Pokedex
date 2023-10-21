@@ -1,8 +1,5 @@
 package org.pokesplash.pokedex;
 
-import com.cobblemon.mod.common.Cobblemon;
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
-import com.cobblemon.mod.common.pokemon.Species;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -13,11 +10,7 @@ import org.pokesplash.pokedex.command.CommandHandler;
 import org.pokesplash.pokedex.config.Config;
 import org.pokesplash.pokedex.config.Lang;
 import org.pokesplash.pokedex.event.JoinEvent;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
+import org.pokesplash.pokedex.event.PokemonCaughtEvent;
 
 public class PokeDex implements ModInitializer {
 	public static final String MOD_ID = "PokeDex";
@@ -33,6 +26,7 @@ public class PokeDex implements ModInitializer {
 	public void onInitialize() {
 		CommandRegistrationCallback.EVENT.register(CommandHandler::registerCommands);
 		ServerPlayConnectionEvents.JOIN.register(new JoinEvent());
+		new PokemonCaughtEvent().registerEvent();
 		load();
 	}
 

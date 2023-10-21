@@ -17,32 +17,21 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.account.AccountProvider;
+import org.pokesplash.pokedex.util.Utils;
 
 import java.util.*;
 
 public class DexMenu {
 
-	public Page getPage(UUID player) {
+	public Page getPage(UUID player, Collection<Species> speciesList) {
 		// Creates array if implemented Pokemon.
 		ArrayList<Species> implemented = new ArrayList<>(PokemonSpecies.INSTANCE.getImplemented());
 		HashMap<Integer, GooeyButton> pokemon = new HashMap<>();
 
 		// For each species, make a button.
-		for (Species dexSpecies : PokemonSpecies.INSTANCE.getSpecies()) {
-
-			// If the species isn't implemented, show unimplemented button.
-			if (!implemented.contains(dexSpecies)) {
-				Collection<String> unimplementedLore = new ArrayList<>();
-				unimplementedLore.add("Pokemon is not currently implemented into Cobblemon.");
-				pokemon.put(dexSpecies.getNationalPokedexNumber(),
-						GooeyButton.builder()
-								.display(new ItemStack(Items.BARRIER))
-								.title(dexSpecies.getName())
-								.lore(unimplementedLore)
-								.build());
-				continue;
-			}
+		for (Species dexSpecies : speciesList) {
 
 			// Creates the button
 			Pokemon mon = new Pokemon();
@@ -50,7 +39,11 @@ public class DexMenu {
 			Collection<String> lore = new ArrayList<>();
 			boolean isCaught =
 					AccountProvider.getAccount(player).getPokemon(dexSpecies.getNationalPokedexNumber()).isCaught();
-			lore.add(isCaught ? "Caught" : "Not Caught");
+			if (!implemented.contains(dexSpecies)) {
+				lore.add("§4Not Implemented Currently.");
+			} else {
+				lore.add(isCaught ? "§aCaught" : "§cNot Caught");
+			}
 
 			// Adds button to hashmap.
 			pokemon.put(dexSpecies.getNationalPokedexNumber(),
@@ -85,7 +78,7 @@ public class DexMenu {
 				.build();
 
 		Button filler = GooeyButton.builder()
-				.display(new ItemStack(Items.WHITE_STAINED_GLASS_PANE))
+				.display(Utils.parseItemId(PokeDex.lang.getFillerMaterial()))
 				.hideFlags(FlagType.All)
 				.lore(new ArrayList<>())
 				.title("")
@@ -99,7 +92,7 @@ public class DexMenu {
 				.build();
 
 		LinkedPage page = PaginationHelper.createPagesFromPlaceholders(template, sortedButtons, null);
-		page.setTitle("Pokedex");
+		page.setTitle(PokeDex.lang.getTitle());
 
 		setPageTitle(page);
 		return page;
@@ -108,7 +101,7 @@ public class DexMenu {
 	private void setPageTitle(LinkedPage page) {
 		LinkedPage next = page.getNext();
 		if (next != null) {
-			next.setTitle("Pokedex");
+			next.setTitle(PokeDex.lang.getTitle());
 			setPageTitle(next);
 		}
 	}

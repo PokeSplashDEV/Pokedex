@@ -4,14 +4,29 @@ import com.google.gson.Gson;
 import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.util.Utils;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
-// TODO this
 public class Config {
-	private boolean isExample;
+
+	private ArrayList<Reward> rewards;
 
 	public Config() {
-		isExample = true;
+		rewards = new ArrayList<>();
+		rewards.add(new Reward(10));
+		rewards.add(new Reward(20));
+		rewards.add(new Reward(30));
+		rewards.add(new Reward(40));
+		rewards.add(new Reward(50));
+		rewards.add(new Reward(60));
+		rewards.add(new Reward(70));
+		rewards.add(new Reward(80));
+		rewards.add(new Reward(90));
+		rewards.add(new Reward(100));
+	}
+
+	public ArrayList<Reward> getRewards() {
+		return rewards;
 	}
 
 	public void init() {
@@ -19,7 +34,7 @@ public class Config {
 				"config.json", el -> {
 					Gson gson = Utils.newGson();
 					Config cfg = gson.fromJson(el, Config.class);
-					isExample = cfg.isExample();
+					rewards = cfg.getRewards();
 				});
 
 		if (!futureRead.join()) {
@@ -37,9 +52,5 @@ public class Config {
 			return;
 		}
 		PokeDex.LOGGER.info(PokeDex.MOD_ID + " config file read successfully");
-	}
-
-	public boolean isExample() {
-		return isExample;
 	}
 }

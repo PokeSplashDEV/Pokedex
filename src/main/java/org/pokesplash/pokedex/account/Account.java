@@ -4,7 +4,9 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.google.gson.Gson;
 import org.pokesplash.pokedex.PokeDex;
+import org.pokesplash.pokedex.config.Reward;
 import org.pokesplash.pokedex.dex.DexEntry;
+import org.pokesplash.pokedex.dex.RewardProgress;
 import org.pokesplash.pokedex.util.Utils;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class Account {
 	private final UUID uuid;
+	private HashMap<Double, RewardProgress> rewards;
 	private HashMap<Integer, DexEntry> pokemon;
 	private boolean isComplete;
 
@@ -26,6 +29,28 @@ public class Account {
 		for (Species species : PokemonSpecies.INSTANCE.getSpecies()) {
 			pokemon.put(species.getNationalPokedexNumber(),
 					new DexEntry(species.getNationalPokedexNumber(), false));
+		}
+
+		rewards = new HashMap<>();
+		for (Reward reward : PokeDex.config.getRewards()) {
+			rewards.put(reward.getProgress(), new RewardProgress(reward.getProgress(), false));
+		}
+		writeToFile();
+	}
+
+	public RewardProgress getReward(double progress) {
+		return rewards.get(progress);
+	}
+
+	public void completeReward(double progress) {
+		rewards.put(progress, new RewardProgress(progress, true));
+		writeToFile();
+	}
+
+	public void addAllRewards(List<Double> rewardList) {
+		double progress = Utils.getDexProgress(this);
+		for (double number : rewardList) {
+			rewards.put(number, new RewardProgress(number, progress >= number));
 		}
 		writeToFile();
 	}
@@ -82,6 +107,10 @@ public class Account {
 	public void setComplete(boolean complete) {
 		isComplete = complete;
 		writeToFile();
+	}
+
+	public int getPokemonCount() {
+		return pokemon.size();
 	}
 
 	private void writeToFile() {

@@ -1,6 +1,7 @@
 package org.pokesplash.pokedex.command;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -49,9 +50,8 @@ public class BaseCommand {
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
 
-		UIManager.openUIForcefully(player, new DexMenu().getPage(player.getUuid()));
-
-		System.out.println("Base command run");
+		UIManager.openUIForcefully(player, new DexMenu().getPage(player.getUuid(),
+				PokemonSpecies.INSTANCE.getSpecies()));
 		return 1;
 	}
 }

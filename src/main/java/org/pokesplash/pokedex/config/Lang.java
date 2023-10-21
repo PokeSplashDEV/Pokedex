@@ -6,7 +6,6 @@ import org.pokesplash.pokedex.util.Utils;
 
 import java.util.concurrent.CompletableFuture;
 
-// TODO this
 public class Lang {
 	private String title;
 	private String fillerMaterial;

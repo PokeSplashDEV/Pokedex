@@ -1,10 +1,13 @@
 package org.pokesplash.pokedex.account;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.google.gson.Gson;
 import org.pokesplash.pokedex.PokeDex;
+import org.pokesplash.pokedex.config.Reward;
 import org.pokesplash.pokedex.util.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -39,6 +42,28 @@ public abstract class AccountProvider {
 				Account account = gson.fromJson(el, Account.class);
 				accounts.put(account.getUuid(), account);
 			});
+		}
+
+		int totalPokemon = PokemonSpecies.INSTANCE.getSpecies().size();
+
+		// If there are more Pokemon than in the account, add the new ones.
+		for (UUID account : accounts.keySet()) {
+			Account acc = accounts.get(account);
+			if (acc.getPokemonCount() < totalPokemon) {
+				ArrayList<Integer> newPokemon = new ArrayList<>();
+				for (int x=acc.getPokemonCount() + 1; x <= totalPokemon; x++) {
+					newPokemon.add(x);
+				}
+				acc.addAllPokemon(newPokemon);
+			}
+
+			ArrayList<Double> rewardProgresses = new ArrayList<>();
+			for (Reward reward : PokeDex.config.getRewards()) {
+				if (acc.getReward(reward.getProgress()) == null) {
+					rewardProgresses.add(reward.getProgress());
+				}
+			}
+			acc.addAllRewards(rewardProgresses);
 		}
 	}
 }
