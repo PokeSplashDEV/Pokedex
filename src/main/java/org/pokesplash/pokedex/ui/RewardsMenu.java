@@ -1,5 +1,6 @@
 package org.pokesplash.pokedex.ui;
 
+import ca.landonjw.gooeylibs2.api.UIManager;
 import ca.landonjw.gooeylibs2.api.button.Button;
 import ca.landonjw.gooeylibs2.api.button.FlagType;
 import ca.landonjw.gooeylibs2.api.button.GooeyButton;
@@ -9,6 +10,7 @@ import ca.landonjw.gooeylibs2.api.template.types.ChestTemplate;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
 import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.account.Account;
 import org.pokesplash.pokedex.account.AccountProvider;
@@ -16,6 +18,8 @@ import org.pokesplash.pokedex.config.Reward;
 import org.pokesplash.pokedex.util.Utils;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -58,11 +62,17 @@ public class RewardsMenu {
 							}
 						}
 						account.redeemReward(reward.getProgress());
+						UIManager.closeUI(e.getPlayer());
+						e.getPlayer().sendMessage(
+								Text.literal("§c[Pokedex] §2You successfully redeemed the " + reward.getProgress() +
+										"% dex rewards."));
 					});
 				}
 			} else {
 				lore.add("§cYou need " + reward.getProgress() + " to claim this reward");
-				lore.add("§6Current Progress: " + progress);
+				lore.add("§6Current Progress: " +
+						new BigDecimal(progress).setScale(2, RoundingMode.HALF_EVEN).floatValue()
+				+ "%");
 			}
 			button.lore(lore);
 			rewards.put(reward.getSlotNumber(), button.build());

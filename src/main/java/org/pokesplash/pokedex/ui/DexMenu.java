@@ -21,6 +21,9 @@ import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.account.AccountProvider;
 import org.pokesplash.pokedex.util.Utils;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class DexMenu {
@@ -49,7 +52,7 @@ public class DexMenu {
 			pokemon.put(dexSpecies.getNationalPokedexNumber(),
 					GooeyButton.builder()
 							.display(PokemonItem.from(mon))
-							.title(dexSpecies.getName() + " - " + dexSpecies.getNationalPokedexNumber())
+							.title("§8" + dexSpecies.getNationalPokedexNumber() + ": §3" + dexSpecies.getName())
 							.lore(lore)
 							.build()
 			);
@@ -92,7 +95,9 @@ public class DexMenu {
 				.build();
 
 		LinkedPage page = PaginationHelper.createPagesFromPlaceholders(template, sortedButtons, null);
-		String text = " - " + Utils.getDexProgress(AccountProvider.getAccount(player));
+		String text = " - " +
+				new BigDecimal(Utils.getDexProgress(AccountProvider.getAccount(player)))
+						.setScale(2, RoundingMode.HALF_EVEN).floatValue() + "%";
 		page.setTitle(PokeDex.lang.getTitle() + text);
 
 		setPageTitle(page, text);
