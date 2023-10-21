@@ -92,17 +92,18 @@ public class DexMenu {
 				.build();
 
 		LinkedPage page = PaginationHelper.createPagesFromPlaceholders(template, sortedButtons, null);
-		page.setTitle(PokeDex.lang.getTitle());
+		String text = " - " + Utils.getDexProgress(AccountProvider.getAccount(player));
+		page.setTitle(PokeDex.lang.getTitle() + text);
 
-		setPageTitle(page);
+		setPageTitle(page, text);
 		return page;
 	}
 
-	private void setPageTitle(LinkedPage page) {
+	private void setPageTitle(LinkedPage page, String string) {
 		LinkedPage next = page.getNext();
 		if (next != null) {
-			next.setTitle(PokeDex.lang.getTitle());
-			setPageTitle(next);
+			next.setTitle(PokeDex.lang.getTitle() + string);
+			setPageTitle(next, string);
 		}
 	}
 

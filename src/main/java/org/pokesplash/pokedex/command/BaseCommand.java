@@ -39,6 +39,7 @@ public class BaseCommand {
 				.redirect(registeredCommand).executes(this::run));
 
 		registeredCommand.addChild(new ReloadCommand().build());
+		registeredCommand.addChild(new RewardsCommand().build());
 
 	}
 

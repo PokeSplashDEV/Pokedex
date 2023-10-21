@@ -8,21 +8,20 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class Config {
-
 	private ArrayList<Reward> rewards;
 
 	public Config() {
 		rewards = new ArrayList<>();
-		rewards.add(new Reward(10));
-		rewards.add(new Reward(20));
-		rewards.add(new Reward(30));
-		rewards.add(new Reward(40));
-		rewards.add(new Reward(50));
-		rewards.add(new Reward(60));
-		rewards.add(new Reward(70));
-		rewards.add(new Reward(80));
-		rewards.add(new Reward(90));
-		rewards.add(new Reward(100));
+		rewards.add(new Reward(10, 10, "cobblemon:poke_ball"));
+		rewards.add(new Reward(20, 12, "cobblemon:great_ball"));
+		rewards.add(new Reward(30, 14, "cobblemon:ultra_ball"));
+		rewards.add(new Reward(40, 16, "cobblemon:dusk_ball"));
+		rewards.add(new Reward(50, 28, "cobblemon:quick_ball"));
+		rewards.add(new Reward(60, 30, "cobblemon:sport_ball"));
+		rewards.add(new Reward(70, 32, "cobblemon:love_ball"));
+		rewards.add(new Reward(80, 34, "cobblemon:moon_ball"));
+		rewards.add(new Reward(90, 28, "cobblemon:park_ball"));
+		rewards.add(new Reward(100, 42, "cobblemon:master_ball"));
 	}
 
 	public ArrayList<Reward> getRewards() {

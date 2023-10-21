@@ -33,7 +33,7 @@ public class Account {
 
 		rewards = new HashMap<>();
 		for (Reward reward : PokeDex.config.getRewards()) {
-			rewards.put(reward.getProgress(), new RewardProgress(reward.getProgress(), false));
+			rewards.put(reward.getProgress(), new RewardProgress(reward.getProgress(), false, false));
 		}
 		writeToFile();
 	}
@@ -43,14 +43,19 @@ public class Account {
 	}
 
 	public void completeReward(double progress) {
-		rewards.put(progress, new RewardProgress(progress, true));
+		rewards.put(progress, new RewardProgress(progress, true, false));
+		writeToFile();
+	}
+
+	public void redeemReward(double progress) {
+		rewards.put(progress, new RewardProgress(progress, true, true));
 		writeToFile();
 	}
 
 	public void addAllRewards(List<Double> rewardList) {
 		double progress = Utils.getDexProgress(this);
 		for (double number : rewardList) {
-			rewards.put(number, new RewardProgress(number, progress >= number));
+			rewards.put(number, new RewardProgress(number, progress >= number, false));
 		}
 		writeToFile();
 	}
