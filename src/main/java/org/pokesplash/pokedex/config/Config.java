@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class Config {
+	private boolean implementedOnly;
 	private ArrayList<Reward> rewards;
 
 	public Config() {
+		implementedOnly = true;
 		rewards = new ArrayList<>();
 		rewards.add(new Reward(10, 10, "cobblemon:poke_ball"));
 		rewards.add(new Reward(20, 12, "cobblemon:great_ball"));
@@ -24,6 +26,10 @@ public class Config {
 		rewards.add(new Reward(100, 42, "cobblemon:master_ball"));
 	}
 
+	public boolean isImplementedOnly() {
+		return implementedOnly;
+	}
+
 	public ArrayList<Reward> getRewards() {
 		return rewards;
 	}
@@ -33,6 +39,7 @@ public class Config {
 				"config.json", el -> {
 					Gson gson = Utils.newGson();
 					Config cfg = gson.fromJson(el, Config.class);
+					implementedOnly = cfg.isImplementedOnly();
 					rewards = cfg.getRewards();
 				});
 

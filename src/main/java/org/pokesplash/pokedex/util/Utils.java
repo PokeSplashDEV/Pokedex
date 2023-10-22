@@ -305,7 +305,12 @@ public abstract class Utils {
 	}
 
 	public static double getDexProgress(Account account) {
-		return (double) account.getCaught().size() / PokemonSpecies.INSTANCE.getSpecies().size() * 100;
+
+		if (PokeDex.config.isImplementedOnly()) {
+			return (double) account.getCaught().size() / PokemonSpecies.INSTANCE.getImplemented().size() * 100;
+		} else {
+			return (double) account.getCaught().size() / PokemonSpecies.INSTANCE.getSpecies().size() * 100;
+		}
 	}
 
 }

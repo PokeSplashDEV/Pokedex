@@ -8,6 +8,7 @@ import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.account.Account;
 import org.pokesplash.pokedex.account.AccountProvider;
 import org.pokesplash.pokedex.config.Reward;
+import org.pokesplash.pokedex.dex.RewardProgress;
 import org.pokesplash.pokedex.util.Utils;
 
 public class PokemonCaughtEvent {
@@ -23,12 +24,22 @@ public class PokemonCaughtEvent {
 
 				// Checks if any rewards have been met and completes them.
 				for (Reward reward : PokeDex.config.getRewards()) {
-					if (progress >= reward.getProgress() && !account.getReward(progress).isComplete()) {
+					if (progress >= reward.getProgress() &&
+							!account.getReward(progress).isComplete()) {
 						account.completeReward(progress);
 						e.getPlayer().sendMessage(Text.literal(
-								"You have unlocked a Pokedex reward for " + reward.getProgress() +
-										"% progress"));
+								"§2You have unlocked a Pokedex reward!"));
 					}
+				}
+
+				boolean isComplete = true;
+				for (RewardProgress rwd : account.getAllRewards()) {
+					if (!rwd.isComplete()) {
+						isComplete = false;
+					}
+				}
+				if (isComplete) {
+					account.setComplete(true);
 				}
 			}
 

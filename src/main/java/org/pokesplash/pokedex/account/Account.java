@@ -42,6 +42,10 @@ public class Account {
 		return rewards.get(progress);
 	}
 
+	public ArrayList<RewardProgress> getAllRewards() {
+		return new ArrayList<>(rewards.values());
+	}
+
 	public void completeReward(double progress) {
 		rewards.put(progress, new RewardProgress(progress, true, false));
 		writeToFile();

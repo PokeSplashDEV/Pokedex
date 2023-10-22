@@ -38,7 +38,7 @@ public class RewardsMenu {
 
 			GooeyButton.Builder button = GooeyButton.builder()
 					.display(Utils.parseItemId(reward.getItemMaterial()))
-					.title("§3" + reward.getProgress() + "%");
+					.title("§3" + (int) reward.getProgress() + "%");
 
 			ArrayList<String> lore = new ArrayList<>();
 
@@ -63,7 +63,7 @@ public class RewardsMenu {
 						account.redeemReward(reward.getProgress());
 						UIManager.closeUI(e.getPlayer());
 						e.getPlayer().sendMessage(
-								Text.literal("§c[Pokedex] §2You successfully redeemed the " + reward.getProgress() +
+								Text.literal("§c[Pokedex] §2You successfully redeemed the " + (int) reward.getProgress() +
 										"% dex rewards."));
 					});
 				}

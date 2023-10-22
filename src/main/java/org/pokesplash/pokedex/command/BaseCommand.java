@@ -2,6 +2,7 @@ package org.pokesplash.pokedex.command;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
+import com.cobblemon.mod.common.pokemon.Species;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -10,8 +11,12 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.ui.DexMenu;
 import org.pokesplash.pokedex.util.LuckPermsUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class BaseCommand {
 	public void register(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -53,8 +58,15 @@ public class BaseCommand {
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
 
+		Collection<Species> list = new ArrayList<>();
+		if (PokeDex.config.isImplementedOnly()) {
+			list.addAll(PokemonSpecies.INSTANCE.getImplemented());
+		} else {
+			list.addAll(PokemonSpecies.INSTANCE.getSpecies());
+		}
+
 		UIManager.openUIForcefully(player, new DexMenu().getPage(player.getUuid(),
-				PokemonSpecies.INSTANCE.getSpecies()));
+				list));
 		return 1;
 	}
 }
