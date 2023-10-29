@@ -22,7 +22,8 @@ public class NeededCommand {
 		return CommandManager.literal("needed")
 				.requires(ctx -> {
 					if (ctx.isExecutedByPlayer()) {
-						return LuckPermsUtils.hasPermission(ctx.getPlayer(), CommandHandler.basePermission + ".reload");
+						return LuckPermsUtils.hasPermission(ctx.getPlayer(),
+								CommandHandler.basePermission + ".base");
 					} else {
 						return true;
 					}

@@ -14,7 +14,8 @@ public class RewardsCommand {
 		return CommandManager.literal("rewards")
 				.requires(ctx -> {
 					if (ctx.isExecutedByPlayer()) {
-						return LuckPermsUtils.hasPermission(ctx.getPlayer(), CommandHandler.basePermission + ".reload");
+						return LuckPermsUtils.hasPermission(ctx.getPlayer(),
+								CommandHandler.basePermission + ".base");
 					} else {
 						return true;
 					}
