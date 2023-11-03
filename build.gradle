@@ -51,7 +51,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Any added files
-    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    modImplementation fileTree(dir: 'libs', includes: ['*.jar'])
 
     // Gooeylibs
     modImplementation("ca.landonjw.gooeylibs:fabric:${rootProject.gooeylibs_version}")

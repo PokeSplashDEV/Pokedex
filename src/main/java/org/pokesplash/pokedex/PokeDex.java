@@ -9,6 +9,7 @@ import org.pokesplash.pokedex.account.AccountProvider;
 import org.pokesplash.pokedex.command.CommandHandler;
 import org.pokesplash.pokedex.config.Config;
 import org.pokesplash.pokedex.config.Lang;
+import org.pokesplash.pokedex.event.HatchEvent;
 import org.pokesplash.pokedex.event.JoinEvent;
 import org.pokesplash.pokedex.event.PokemonCaughtEvent;
 
@@ -27,6 +28,7 @@ public class PokeDex implements ModInitializer {
 		CommandRegistrationCallback.EVENT.register(CommandHandler::registerCommands);
 		ServerPlayConnectionEvents.JOIN.register(new JoinEvent());
 		new PokemonCaughtEvent().registerEvent();
+		new HatchEvent().registerEvent();
 		load();
 	}
 
