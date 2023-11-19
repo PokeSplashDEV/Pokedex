@@ -5,11 +5,11 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import kotlin.Unit;
 import org.pokesplash.pokedex.util.Dexutils;
 
-public class PokemonCaughtEvent {
-	public void registerEvent() {
-		CobblemonEvents.POKEMON_CAPTURED.subscribe(Priority.NORMAL, e -> {
+public class EvolutionEvent {
+	public void RegisterEvent() {
+		CobblemonEvents.EVOLUTION_COMPLETE.subscribe(Priority.NORMAL, e -> {
 
-			Dexutils.checkDex(e.getPokemon(), e.getPlayer());
+			Dexutils.checkDex(e.getPokemon(), e.getPokemon().getOwnerPlayer());
 
 			return Unit.INSTANCE;
 		});
