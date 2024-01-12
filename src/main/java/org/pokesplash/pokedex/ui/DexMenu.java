@@ -15,10 +15,16 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.item.PokemonItem;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.account.AccountProvider;
+import org.pokesplash.pokedex.dex.DexEntry;
 import org.pokesplash.pokedex.util.Utils;
 
 import java.math.BigDecimal;
@@ -27,7 +33,7 @@ import java.util.*;
 
 public class DexMenu {
 
-	public Page getPage(UUID player, Collection<Species> speciesList) {
+	public Page getPage(CommandContext<ServerCommandSource> context, UUID player, Collection<Species> speciesList) {
 		// Creates array if implemented Pokemon.
 		ArrayList<Species> implemented = new ArrayList<>(PokemonSpecies.INSTANCE.getImplemented());
 		HashMap<Integer, GooeyButton> pokemon = new HashMap<>();
@@ -39,8 +45,18 @@ public class DexMenu {
 			Pokemon mon = new Pokemon();
 			mon.setSpecies(dexSpecies);
 			Collection<String> lore = new ArrayList<>();
-			boolean isCaught =
-					AccountProvider.getAccount(player).getPokemon(dexSpecies.getNationalPokedexNumber()).isCaught();
+			boolean isCaught = false;
+            int nPN = dexSpecies.getNationalPokedexNumber();
+
+			DexEntry de = AccountProvider.getAccount(player).getPokemon(nPN);
+			if(de != null){
+				isCaught = de.isCaught();
+			} else {
+				String message = String.format("DexEntry null player UUID (%s), DexNum (%s)", player, nPN);
+				context.getSource().sendMessage(Text.literal(message).setStyle(Style.EMPTY.withColor(Formatting.RED)));
+				PokeDex.LOGGER.error(message);
+			}
+
 			if (!implemented.contains(dexSpecies)) {
 				lore.add("§4Not Implemented Currently.");
 			} else {
@@ -48,7 +64,7 @@ public class DexMenu {
 			}
 
 			// Adds button to hashmap.
-			pokemon.put(dexSpecies.getNationalPokedexNumber(),
+			pokemon.put(nPN,
 					GooeyButton.builder()
 							.display(PokemonItem.from(mon))
 							.title("§8" + dexSpecies.getNationalPokedexNumber() + ": §3" + dexSpecies.getName())
