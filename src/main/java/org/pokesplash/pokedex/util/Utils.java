@@ -3,8 +3,13 @@ package org.pokesplash.pokedex.util;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.pokesplash.pokedex.PokeDex;
 import org.pokesplash.pokedex.account.Account;
 
@@ -313,4 +318,10 @@ public abstract class Utils {
 		}
 	}
 
+	public static void printCommandException(Exception ex, CommandContext<ServerCommandSource> context){
+		String message = String.format("An unexpected error occurred trying to execute /%s.",  context.getNodes().get(0).getNode().getName());
+		context.getSource().sendMessage(Text.literal(message).setStyle(Style.EMPTY.withColor(Formatting.RED)));
+		context.getSource().sendMessage(Text.literal(ex.getMessage()).setStyle(Style.EMPTY.withColor(Formatting.GOLD)));
+		PokeDex.LOGGER.error(message, ex);
+	}
 }
